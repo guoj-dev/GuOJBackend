@@ -73,6 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'GuOJBackend.wsgi.application'
 
+ASGI_APPLICATION = "GuOJBackend.routing.application"
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

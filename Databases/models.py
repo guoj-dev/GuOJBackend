@@ -20,22 +20,30 @@ class User(models.Model):
     ParticallyCorrectCount=models.BigIntegerField()
     SystemErrorCount=models.BigIntegerField()
     Text=models.TextField()
+    def __str__(self):
+        return self.Username
 
 class Group(models.Model):
     LEVEL_CHOICE={
-        'Normal','Trusted','Admin'
+        ('N','Normal'),('T','Trusted'),('A','Admin')
     }
+    GroupName=models.TextField()
     UserCount=models.BigIntegerField()
     Level=models.CharField(max_length=16,choices=LEVEL_CHOICE)
     AllowJoin=models.NullBooleanField()
+    def __str__(self):
+        return self.GroupName
 
 class ProblemSet(models.Model):
     PERMISSION_CHOICE={
-        'Stricted','Private','Public'
+        ('S','Stricted'),('SP','Private'),('P','Public')
     }
+    ProblemSetName=models.TextField()
     Group=models.ManyToManyField(Group)
     Permission=models.CharField(max_length=16,choices=PERMISSION_CHOICE)
     AuthedUser=models.ManyToManyField(User)
+    def __str__(self):
+        return self.ProblemSetName
 
 class Problem(models.Model):
     ProblemSet=models.ForeignKey(ProblemSet,blank=True, null=True,on_delete=models.SET_NULL)
@@ -46,6 +54,8 @@ class Problem(models.Model):
     #TODO:ProblemLevel
     ProblemTitle=models.TextField()
     ProblemDiscription=models.TextField()
+    def __str__(self):
+        return self.ProblemTitle
 
 
 class JudgeData(models.Model):
