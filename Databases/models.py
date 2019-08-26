@@ -107,6 +107,7 @@ class Problem(models.Model):
     # TODO:ProblemLevel
     ProblemTitle = models.TextField()
     ProblemDiscription = models.TextField()
+    ProblemDataPath = models.TextField()
 
     def __str__(self):
         return self.ProblemTitle
@@ -146,7 +147,8 @@ class JudgeData(models.Model):
 
 class Contest(models.Model):
     ProviderUser = models.ManyToManyField(User)
-    ProviderGroup = models.ForeignKey(Group)
+    ProviderGroup = models.ForeignKey(
+        Group, blank=True, null=True, on_delete=models.SET_NULL)
     Title = models.TextField()
     Description = models.TextField()
     isPublic = models.BooleanField()
@@ -155,3 +157,34 @@ class Contest(models.Model):
     ProblemSet = models.ManyToManyField(ProblemSet)
     Problem = models.ManyToManyField(Problem)
     ContestRules = JSONField()
+
+
+class Discussion(models.Model):
+    User = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.SET_NULL)
+    ProblemSet = models.ForeignKey(
+        ProblemSet, blank=True, null=True, on_delete=models.SET_NULL)
+    Problem = models.ForeignKey(
+        Problem, blank=True, null=True, on_delete=models.SET_NULL)
+    Contest = models.ForeignKey(
+        Contest, blank=True, null=True, on_delete=models.SET_NULL)
+    Title = models.TextField()
+    Text = models.TextField()
+    ReleaseTime = models.DateTimeField()
+    ishide = models.BooleanField(default=False)
+    Reply = models.BigIntegerField()
+    Like = models.BigIntegerField()
+    DisLike = models.BigIntegerField()
+    DownVote = models.BigIntegerField()
+
+
+class Comment(models.Model):
+    User = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.SET_NULL)
+    Discussion = models.ForeignKey(Discussion)
+    Number = models.BigIntegerField()
+    Text = models.TextField()
+    ReleaseTime = models.DateTimeField()
+    Like = models.BigIntegerField()
+    DisLike = models.BigIntegerField()
+    DownVote = models.BigIntegerField()
