@@ -154,9 +154,20 @@ class Contest(models.Model):
     isPublic = models.BooleanField()
     isGlobal = models.BooleanField()
     isRated = models.BooleanField()
+    StartTime = models.DateTimeField()
+    EndTime = models.DateTimeField()
     ProblemSet = models.ManyToManyField(ProblemSet)
     Problem = models.ManyToManyField(Problem)
     ContestRules = JSONField()
+
+
+class ContestSolutions(models.Model):
+    ProviderUser = models.ManyToManyField(User)
+    ProviderGroup = models.ForeignKey(
+        Group, blank=True, null=True, on_delete=models.SET_NULL)
+    Title = models.TextField()
+    Text=models.TextField()
+    ReleaseTime = models.DateTimeField()
 
 
 class Discussion(models.Model):
