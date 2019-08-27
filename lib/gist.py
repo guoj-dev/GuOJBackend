@@ -1,4 +1,4 @@
-from PythonGists import PythonGists
+from PythonGists.PythonGists import PythonGists
 
 def CreateGist(id:int,content:str,username:str,password:str):
     if type(id)!=int or type(content)!=str or type(username)!=str or type(password)!=str:
