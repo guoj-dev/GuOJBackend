@@ -106,7 +106,7 @@ class Problem(models.Model):
     ProblemProvider_overwrite = models.TextField()
     # TODO:ProblemLevel
     ProblemTitle = models.TextField()
-    ProblemDiscription = models.TextField()
+    ProblemDescription = models.TextField()
     ProblemDataPath = models.TextField()
 
     def __str__(self):
@@ -199,3 +199,9 @@ class Comment(models.Model):
     Like = models.BigIntegerField()
     DisLike = models.BigIntegerField()
     DownVote = models.BigIntegerField()
+
+
+class paste(models.Model):
+    User = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.SET_NULL)
+    Suffix = models.TextField()
