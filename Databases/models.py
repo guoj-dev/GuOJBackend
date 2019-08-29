@@ -6,9 +6,9 @@ import json
 
 
 class User(models.Model):
-    Sexs=['Male','Female']
+    Sexs = ['Male', 'Female']
     Username = models.CharField(max_length=256)
-    Sex = models.CharField(max_length=16,chioces=Sexs)
+    Sex = models.CharField(max_length=16, chioces=Sexs)
     Avatar = models.URLField()
     Coins = models.BigIntegerField()
     Rating = models.BigIntegerField(default=1500)
@@ -32,23 +32,22 @@ class User(models.Model):
     def __str__(self):
         return self.Username
 
-    def json(self):
-        return json.dumps(
-            [
-                {
-                    'name':
+    def data(self):
+        return [
+            {
+                'name':
                     {
                         'text': self.Username,
                         'color': self.NameColor
                     },
-                    'Sex': self.Sex,
+                'Sex': self.Sex,
                     'avatar': self.Avatar,
                     'nameplate':
                     {
                         'text': self.Nameplate,
                         'color': self.NameplateColor
                     },
-                    'text': self.Text,
+                'text': self.Text,
                     'date': self.UserRegisterDate,
                     'coins': self.Coins,
                     'experince': self.Experience,
@@ -65,9 +64,8 @@ class User(models.Model):
                         'PC': self.ParticallyCorrectCount,
                         'SE': self.SystemErrorCount
                     }
-                }
-            ]
-        )
+            }
+        ]
 
 
 class Group(models.Model):
@@ -169,7 +167,7 @@ class ContestSolutions(models.Model):
     ProviderGroup = models.ForeignKey(
         Group, blank=True, null=True, on_delete=models.SET_NULL)
     Title = models.TextField()
-    Text=models.TextField()
+    Text = models.TextField()
     ReleaseTime = models.DateTimeField()
 
 
