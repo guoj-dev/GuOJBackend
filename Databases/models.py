@@ -6,7 +6,9 @@ import json
 
 
 class User(models.Model):
+    Sexs=['Male','Female']
     Username = models.CharField(max_length=256)
+    Sex = models.CharField(max_length=16,chioces=Sexs)
     Avatar = models.URLField()
     Coins = models.BigIntegerField()
     Rating = models.BigIntegerField(default=1500)
@@ -39,6 +41,7 @@ class User(models.Model):
                         'text': self.Username,
                         'color': self.NameColor
                     },
+                    'Sex': self.Sex,
                     'avatar': self.Avatar,
                     'nameplate':
                     {
@@ -204,4 +207,4 @@ class Comment(models.Model):
 class paste(models.Model):
     User = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL)
-    Suffix = models.TextField()
+    url = models.TextField()
