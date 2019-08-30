@@ -202,6 +202,16 @@ class Comment(models.Model):
     DownVote = models.BigIntegerField()
 
 
+class Vote(models.Model):
+    Discussion = models.ForeignKey(Discussion, blank=True, null=True, on_delete=models.SET_NULL)
+    Comment = models.ForeignKey(Comment, blank=True, null=True, on_delete=models.SET_NULL)
+    User = models.ForeignKey(User)
+    DeltaUpvote=models.BigIntegerField()
+    DeltaDownvote=models.BigIntegerField()
+    isUpvote=models.BooleanField()
+    isDeleted=models.BooleanField()
+    
+
 class paste(models.Model):
     User = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL)
