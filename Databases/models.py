@@ -138,9 +138,9 @@ class JudgeData(models.Model):
     JudgeStatus = models.CharField(max_length=64, choices=STATUS_CHOICES)
     Score = models.FloatField()
     LocalID = models.BigIntegerField()
-    ProblemIDSuffix = models.TextField()
-    ProblemSetID = models.BigIntegerField()
-    ProblemID = models.BigIntegerField()
+    ProblemSet = models.ForeignKey(ProblemSet, blank=True, null=True, on_delete=models.SET_NULL)
+    Problem = models.ForeignKey(Problem, blank=True, null=True, on_delete=models.SET_NULL)
+    Contest = models.ForeignKey(Contest, blank=True, null=True, on_delete=models.SET_NULL)
     User = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL)
     isPublic = models.BooleanField()
