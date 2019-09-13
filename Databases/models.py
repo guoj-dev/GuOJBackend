@@ -76,6 +76,8 @@ class Group(models.Model):
     UserCount = models.BigIntegerField()
     Level = models.CharField(max_length=16, choices=LEVEL_CHOICE)
     AllowJoin = models.NullBooleanField()
+    isOfficial = models.BooleanField()
+    
 
     def __str__(self):
         return self.GroupName
