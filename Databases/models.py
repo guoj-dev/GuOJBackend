@@ -1,36 +1,36 @@
 from django.contrib.postgres.fields import JSONField
+from django.contrib.auth.models import AbstractUser  
 from django.db import models
 import json
 
 # Create your models here.
 
 
-class User(models.Model):
-    Sexs = ['Male', 'Female']
-    Username = models.CharField(max_length=256)
-    Sex = models.CharField(max_length=16, chioces=Sexs)
+class User(AbstractUser):
+    Sexs = [('M','Male'), ('W','Female')]
+    Sex = models.CharField(max_length=16, choices=Sexs)
     Avatar = models.URLField()
-    Coins = models.BigIntegerField()
+    Coins = models.BigIntegerField(default=0)
     Rating = models.BigIntegerField(default=1500)
     Experience = models.BigIntegerField(default=0)
     Nameplate = models.CharField(max_length=16)
     NameColor = models.CharField(max_length=16)
     NameplateColor = models.CharField(max_length=16)
-    UserRegisterDate = models.DateField()
-    Contribution = models.FloatField()
-    CompileErrorCount = models.BigIntegerField()
-    AcceptedCount = models.BigIntegerField()
-    WrongAnswerCount = models.BigIntegerField()
-    RuntimeErrorCount = models.BigIntegerField()
-    TimeLimitExceededCount = models.BigIntegerField()
-    MemoryLimitExceededCount = models.BigIntegerField()
-    OutputLimitExceededCount = models.BigIntegerField()
-    ParticallyCorrectCount = models.BigIntegerField()
-    SystemErrorCount = models.BigIntegerField()
+    UserRegisterDate = models.DateTimeField(auto_now_add=True)
+    Contribution = models.FloatField(default=0)
+    CompileErrorCount = models.BigIntegerField(default=0)
+    AcceptedCount = models.BigIntegerField(default=0)
+    WrongAnswerCount = models.BigIntegerField(default=0)
+    RuntimeErrorCount = models.BigIntegerField(default=0)
+    TimeLimitExceededCount = models.BigIntegerField(default=0)
+    MemoryLimitExceededCount = models.BigIntegerField(default=0)
+    OutputLimitExceededCount = models.BigIntegerField(default=0)
+    ParticallyCorrectCount = models.BigIntegerField(default=0)
+    SystemErrorCount = models.BigIntegerField(default=0)
     Text = models.TextField()
 
     def __str__(self):
-        return self.Username
+        return self.username
 
     def data(self):
         return [
@@ -89,7 +89,7 @@ class ProblemSet(models.Model):
     }
     ProblemSetName = models.TextField()
     ProblemSerPrefix = models.TextField()
-    Group = models.ManyToManyField(Group)
+    Group = models.ManyToManyField(Group, related_name='ProblemSet')
     Permission = models.CharField(max_length=16, choices=PERMISSION_CHOICE)
     AuthedUser = models.ManyToManyField(User)
 
@@ -104,7 +104,7 @@ class Problem(models.Model):
     ProblemProviderUser = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL)
     ProblemProviderGroup = models.ForeignKey(
-        Group, blank=True, null=True, on_delete=models.SET_NULL)
+        Group, blank=True, null=True, on_delete=models.SET_NULL, related_name='Problem')
     # This will Overwrite the Provider!
     ProblemProvider_overwrite = models.TextField()
     # TODO:ProblemLevel
@@ -114,6 +114,78 @@ class Problem(models.Model):
 
     def __str__(self):
         return self.ProblemTitle
+
+
+class Contest(models.Model):
+    ProviderUser = models.ManyToManyField(User)
+    ProviderGroup = models.ForeignKey(
+        Group, blank=True, null=True, on_delete=models.SET_NULL, related_name='Contest')
+    Title = models.TextField()
+    Description = models.TextField()
+    isPublic = models.BooleanField()
+    isGlobal = models.BooleanField()
+    isRated = models.BooleanField()
+    StartTime = models.DateTimeField()
+    EndTime = models.DateTimeField()
+    ProblemSet = models.ManyToManyField(ProblemSet)
+    Problem = models.ManyToManyField(Problem)
+    ContestRules = JSONField()
+
+
+class ContestSolutions(models.Model):
+    ProviderUser = models.ManyToManyField(User)
+    ProviderGroup = models.ForeignKey(
+        Group, blank=True, null=True, on_delete=models.SET_NULL, related_name='ContestSolutions')
+    Title = models.TextField()
+    Text = models.TextField()
+    ReleaseTime = models.DateTimeField()
+
+
+class Discussion(models.Model):
+    User = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.SET_NULL)
+    ProblemSet = models.ForeignKey(
+        ProblemSet, blank=True, null=True, on_delete=models.SET_NULL)
+    Problem = models.ForeignKey(
+        Problem, blank=True, null=True, on_delete=models.SET_NULL)
+    Contest = models.ForeignKey(
+        Contest, blank=True, null=True, on_delete=models.SET_NULL)
+    Title = models.TextField()
+    Text = models.TextField()
+    ReleaseTime = models.DateTimeField()
+    ishide = models.BooleanField(default=False)
+    Reply = models.BigIntegerField()
+    Like = models.BigIntegerField()
+    DisLike = models.BigIntegerField()
+    DownVote = models.BigIntegerField()
+
+
+class Comment(models.Model):
+    User = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.SET_NULL)
+    Discussion = models.ForeignKey(Discussion, blank=True, null=True, on_delete=models.SET_NULL)
+    Number = models.BigIntegerField()
+    Text = models.TextField()
+    ReleaseTime = models.DateTimeField()
+    Like = models.BigIntegerField()
+    DisLike = models.BigIntegerField()
+    DownVote = models.BigIntegerField()
+
+
+class Vote(models.Model):
+    Discussion = models.ForeignKey(Discussion, blank=True, null=True, on_delete=models.SET_NULL)
+    Comment = models.ForeignKey(Comment, blank=True, null=True, on_delete=models.SET_NULL)
+    User = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
+    DeltaUpvote=models.BigIntegerField()
+    DeltaDownvote=models.BigIntegerField()
+    isUpvote=models.BooleanField()
+    isDeleted=models.BooleanField()
+    
+
+class paste(models.Model):
+    User = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.SET_NULL)
+    url = models.TextField()
 
 
 class JudgeData(models.Model):
@@ -146,75 +218,3 @@ class JudgeData(models.Model):
     User = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL)
     isPublic = models.BooleanField()
-
-
-class Contest(models.Model):
-    ProviderUser = models.ManyToManyField(User)
-    ProviderGroup = models.ForeignKey(
-        Group, blank=True, null=True, on_delete=models.SET_NULL)
-    Title = models.TextField()
-    Description = models.TextField()
-    isPublic = models.BooleanField()
-    isGlobal = models.BooleanField()
-    isRated = models.BooleanField()
-    StartTime = models.DateTimeField()
-    EndTime = models.DateTimeField()
-    ProblemSet = models.ManyToManyField(ProblemSet)
-    Problem = models.ManyToManyField(Problem)
-    ContestRules = JSONField()
-
-
-class ContestSolutions(models.Model):
-    ProviderUser = models.ManyToManyField(User)
-    ProviderGroup = models.ForeignKey(
-        Group, blank=True, null=True, on_delete=models.SET_NULL)
-    Title = models.TextField()
-    Text = models.TextField()
-    ReleaseTime = models.DateTimeField()
-
-
-class Discussion(models.Model):
-    User = models.ForeignKey(
-        User, blank=True, null=True, on_delete=models.SET_NULL)
-    ProblemSet = models.ForeignKey(
-        ProblemSet, blank=True, null=True, on_delete=models.SET_NULL)
-    Problem = models.ForeignKey(
-        Problem, blank=True, null=True, on_delete=models.SET_NULL)
-    Contest = models.ForeignKey(
-        Contest, blank=True, null=True, on_delete=models.SET_NULL)
-    Title = models.TextField()
-    Text = models.TextField()
-    ReleaseTime = models.DateTimeField()
-    ishide = models.BooleanField(default=False)
-    Reply = models.BigIntegerField()
-    Like = models.BigIntegerField()
-    DisLike = models.BigIntegerField()
-    DownVote = models.BigIntegerField()
-
-
-class Comment(models.Model):
-    User = models.ForeignKey(
-        User, blank=True, null=True, on_delete=models.SET_NULL)
-    Discussion = models.ForeignKey(Discussion)
-    Number = models.BigIntegerField()
-    Text = models.TextField()
-    ReleaseTime = models.DateTimeField()
-    Like = models.BigIntegerField()
-    DisLike = models.BigIntegerField()
-    DownVote = models.BigIntegerField()
-
-
-class Vote(models.Model):
-    Discussion = models.ForeignKey(Discussion, blank=True, null=True, on_delete=models.SET_NULL)
-    Comment = models.ForeignKey(Comment, blank=True, null=True, on_delete=models.SET_NULL)
-    User = models.ForeignKey(User)
-    DeltaUpvote=models.BigIntegerField()
-    DeltaDownvote=models.BigIntegerField()
-    isUpvote=models.BooleanField()
-    isDeleted=models.BooleanField()
-    
-
-class paste(models.Model):
-    User = models.ForeignKey(
-        User, blank=True, null=True, on_delete=models.SET_NULL)
-    url = models.TextField()

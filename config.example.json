@@ -1,0 +1,23 @@
+{
+    "Database":{
+        "DatabaseName":"",
+        "DatabaseUser":"",
+        "DatabasePassword":"",
+        "DatabaseHost":"localhost",
+        "DatabasePort":""
+    },
+    "Gist-Username": "",
+    "Gist-Password": "",
+    "SecretKey": "",
+    "Production":false,
+    "AllowedHosts":[],
+    "Email":{
+        "EmailServer":"",
+        "EmailPort":"",
+        "UseSSL":true,
+        "EmailUser":"",
+        "EmailPassword":"",
+        "EmailFrom":"",
+        "DefaultEmailFrom":""
+    }
+}

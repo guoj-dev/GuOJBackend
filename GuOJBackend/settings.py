@@ -11,22 +11,25 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import json
 import djcelery
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+with open(os.path.join(BASE_DIR, 'config.json'), 'rt') as f:
+    config = json.load(f)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'my9g84!(&ym^@mhdwap=e5@ogviz92an$-8p#^*4=h9e)gk15b'
+SECRET_KEY = config['SecretKey']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config['AllowedHosts']
 
 djcelery.setup_loader()
 
@@ -39,6 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'rest_framework',
+    'rest_framework.authtoken',
     'channels',
     'djcelery',
     'Databases',
@@ -83,8 +92,12 @@ ASGI_APPLICATION = "GuOJBackend.routing.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config["Database"]["DatabaseName"],  
+        'USER': config["Database"]["DatabaseUser"],  
+        'PASSWORD': config["Database"]["DatabasePassword"],  
+        'HOST': config["Database"]["DatabaseHost"],  
+        'PORT': config["Database"]["DatabasePort"],  
     }
 }
 
@@ -111,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
 TIME_ZONE = 'Asia/Shanghai'
 
@@ -126,3 +139,49 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+SITE_ID = 1
+
+AUTH_USER_MODEL = 'Databases.User'
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = True
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+EMAIL_HOST = "smtp.qq.com"
+
+EMAIL_PORT = 25
+
+EMAIL_HOST_USER = ""
+
+EMAIL_HOST_PASSWORD = "password" 
+
+EMAIL_USE_SSL = True
+
+EMAIL_FROM = "" 
+
+DEFAULT_FROM_EMAIL = "" 
+
+ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN = 60
+
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+
+ACCOUNT_EMAIL_VERIFICATION = "madatory"
+
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
