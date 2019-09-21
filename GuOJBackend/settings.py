@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import json
-import djcelery
+from celery import Celery
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,7 +31,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = config['AllowedHosts']
 
-djcelery.setup_loader()
 
 # Application definition
 
@@ -48,8 +47,11 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_auth',
+    'rest_auth.registration',
+    'django_celery_beat',
+    'django_celery_results',
     'channels',
-    'djcelery',
     'Databases',
     'Judgement',
     'Socket',
@@ -185,3 +187,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     )
 }
+
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672'
+
+CELERY_RESULT_BACKEND = 'django-db'
+
+CELERY_CACHE_BACKEND = 'django-cache'
