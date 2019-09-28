@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'django_celery_beat',
     'django_celery_results',
+    'django_filters',
     #'gunicorn',
     'channels',
     'Databases',
@@ -200,3 +201,6 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
