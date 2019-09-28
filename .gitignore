@@ -105,6 +105,10 @@ venv.bak/
 
 config.json
 
+judge.json
+
 */migrations
 
 static
+
+JudgeData/*

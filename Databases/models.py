@@ -7,6 +7,7 @@ import json
 
 
 class User(AbstractUser):
+    nickname = models.CharField(max_length=30, blank=True, null=True, verbose_name='昵称')
     Sexs = [('M','Male'), ('W','Female')]
     Sex = models.CharField(max_length=16, choices=Sexs)
     Avatar = models.URLField()
@@ -28,44 +29,12 @@ class User(AbstractUser):
     ParticallyCorrectCount = models.BigIntegerField(default=0)
     SystemErrorCount = models.BigIntegerField(default=0)
     Text = models.TextField()
+    class Meta:
+      verbose_name = '用户' 
+      verbose_name_plural = verbose_name #指定模型的复数形式是什么,如果不指定Django会自动在模型名称后加一个’s’
+      ordering = ['-id']
 
-    def __str__(self):
-        return self.username
 
-    def data(self):
-        return [
-            {
-                'name':
-                    {
-                        'text': self.Username,
-                        'color': self.NameColor
-                    },
-                'Sex': self.Sex,
-                    'avatar': self.Avatar,
-                    'nameplate':
-                    {
-                        'text': self.Nameplate,
-                        'color': self.NameplateColor
-                    },
-                'text': self.Text,
-                    'date': self.UserRegisterDate,
-                    'coins': self.Coins,
-                    'experince': self.Experience,
-                    'contribution': self.Contribution,
-                    'rating': self.Rating,
-                    'statics':
-                    {
-                        'AC': self.AcceptedCount,
-                        'WA': self.WrongAnswerCount,
-                        'RE': self.RuntimeErrorCount,
-                        'TLE': self.TimeLimitExceededCount,
-                        'MLE': self.MemoryLimitExceededCount,
-                        'OLE': self.OutputLimitExceededCount,
-                        'PC': self.ParticallyCorrectCount,
-                        'SE': self.SystemErrorCount
-                    }
-            }
-        ]
 
 
 class Group(models.Model):
@@ -77,10 +46,17 @@ class Group(models.Model):
     Level = models.CharField(max_length=16, choices=LEVEL_CHOICE)
     AllowJoin = models.NullBooleanField()
     isOfficial = models.BooleanField()
-    
+    Admins = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.GroupName
+
+
+    class Meta:
+      verbose_name = '用户组' 
+      verbose_name_plural = verbose_name #指定模型的复数形式是什么,如果不指定Django会自动在模型名称后加一个’s’
+      ordering = ['-id']
 
 
 class ProblemSet(models.Model):
@@ -88,13 +64,19 @@ class ProblemSet(models.Model):
         ('S', 'Stricted'), ('SP', 'Private'), ('P', 'Public')
     }
     ProblemSetName = models.TextField()
-    ProblemSerPrefix = models.TextField()
+    ProblemSetPrefix = models.TextField()
     Group = models.ManyToManyField(Group, related_name='ProblemSet')
     Permission = models.CharField(max_length=16, choices=PERMISSION_CHOICE)
     AuthedUser = models.ManyToManyField(User)
 
     def __str__(self):
         return self.ProblemSetName
+
+
+    class Meta:
+      verbose_name = '题库' 
+      verbose_name_plural = verbose_name #指定模型的复数形式是什么,如果不指定Django会自动在模型名称后加一个’s’
+      ordering = ['-id']
 
 
 class Problem(models.Model):
@@ -114,6 +96,12 @@ class Problem(models.Model):
 
     def __str__(self):
         return self.ProblemTitle
+    
+
+    class Meta:
+      verbose_name = '题目' 
+      verbose_name_plural = verbose_name #指定模型的复数形式是什么,如果不指定Django会自动在模型名称后加一个’s’
+      ordering = ['-id']
 
 
 class Contest(models.Model):

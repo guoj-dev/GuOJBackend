@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'django_celery_beat',
     'django_celery_results',
+    #'gunicorn',
     'channels',
     'Databases',
     'Judgement',
@@ -148,7 +149,7 @@ SITE_ID = 1
 
 AUTH_USER_MODEL = 'Databases.User'
 
-ACCOUNT_USER_MODEL_USERNAME_FIELD = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
 
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 
@@ -180,7 +181,7 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
@@ -193,3 +194,9 @@ CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672'
 CELERY_RESULT_BACKEND = 'django-db'
 
 CELERY_CACHE_BACKEND = 'django-cache'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+

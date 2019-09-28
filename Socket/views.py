@@ -1,10 +1,12 @@
-import json
 from django.shortcuts import render
-from django.http import JsonResponse,HttpResponse,Http404
+from django.contrib.auth import get_user_model
+User = get_user_model()
+from Socket.serializers import UserSerializers
+from rest_framework import viewsets
 
-import GuOJBackend.Databases.models
 
-# Create your views here.
 
-def user(request,user_id):
-    pass
+class UserViewSet(viewsets.ModelViewSet):
+    queryset=User.objects.all().order_by('-date_joined')
+    serializer_class=UserSerializers
+
