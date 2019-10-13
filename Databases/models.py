@@ -31,7 +31,7 @@ class User(AbstractUser):
     Text = models.TextField(blank=True)
     class Meta:
       verbose_name = '用户' 
-      verbose_name_plural = verbose_name #指定模型的复数形式是什么,如果不指定Django会自动在模型名称后加一个’s’
+      verbose_name_plural = verbose_name 
       ordering = ['-id']
 
 
@@ -56,7 +56,7 @@ class Group(models.Model):
 
     class Meta:
       verbose_name = '用户组' 
-      verbose_name_plural = verbose_name #指定模型的复数形式是什么,如果不指定Django会自动在模型名称后加一个’s’
+      verbose_name_plural = verbose_name 
       ordering = ['-id']
 
 
@@ -76,7 +76,7 @@ class ProblemSet(models.Model):
 
     class Meta:
       verbose_name = '题库' 
-      verbose_name_plural = verbose_name #指定模型的复数形式是什么,如果不指定Django会自动在模型名称后加一个’s’
+      verbose_name_plural = verbose_name 
       ordering = ['-id']
 
 
@@ -101,7 +101,7 @@ class Problem(models.Model):
 
     class Meta:
       verbose_name = '题目' 
-      verbose_name_plural = verbose_name #指定模型的复数形式是什么,如果不指定Django会自动在模型名称后加一个’s’
+      verbose_name_plural = verbose_name 
       ordering = ['-id']
 
 
@@ -119,6 +119,10 @@ class Contest(models.Model):
     ProblemSet = models.ManyToManyField(ProblemSet)
     Problem = models.ManyToManyField(Problem)
     ContestRules = JSONField()
+    class Meta:
+      verbose_name = '比赛' 
+      verbose_name_plural = verbose_name 
+      ordering = ['-id']
 
 
 class ContestSolutions(models.Model):
@@ -147,6 +151,9 @@ class Discussion(models.Model):
     Like = models.BigIntegerField()
     DisLike = models.BigIntegerField()
     DownVote = models.BigIntegerField()
+    class Meta:
+      verbose_name = '讨论' 
+      verbose_name_plural = verbose_name 
 
 
 class Comment(models.Model):
@@ -159,6 +166,9 @@ class Comment(models.Model):
     Like = models.BigIntegerField()
     DisLike = models.BigIntegerField()
     DownVote = models.BigIntegerField()
+    class Meta:
+      verbose_name = '评论' 
+      verbose_name_plural = verbose_name 
 
 
 class Vote(models.Model):
@@ -169,12 +179,19 @@ class Vote(models.Model):
     DeltaDownvote=models.BigIntegerField()
     isUpvote=models.BooleanField()
     isDeleted=models.BooleanField()
+    class Meta:
+      verbose_name = '赞/踩' 
+      verbose_name_plural = verbose_name 
     
 
 class paste(models.Model):
     User = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL)
     url = models.TextField()
+    isPublic = models.BooleanField(default=False)
+    class Meta:
+      verbose_name = '剪切板' 
+      verbose_name_plural = verbose_name 
 
 
 class JudgeData(models.Model):
@@ -207,3 +224,6 @@ class JudgeData(models.Model):
     User = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL)
     isPublic = models.BooleanField()
+    class Meta:
+      verbose_name = '评测任务' 
+      verbose_name_plural = verbose_name 
