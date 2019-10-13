@@ -35,6 +35,7 @@ ALLOWED_HOSTS = config['AllowedHosts']
 # Application definition
 
 INSTALLED_APPS = [
+    'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,7 +57,7 @@ INSTALLED_APPS = [
     'channels',
     'Databases',
     'Judgement',
-    'Socket',
+    'API',
 ]
 
 MIDDLEWARE = [
@@ -182,7 +183,7 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'rest_framework.permissions.IsAdminUser',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',

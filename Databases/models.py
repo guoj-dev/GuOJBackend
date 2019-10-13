@@ -14,9 +14,9 @@ class User(AbstractUser):
     Coins = models.BigIntegerField(default=0)
     Rating = models.BigIntegerField(default=1500)
     Experience = models.BigIntegerField(default=0)
-    Nameplate = models.CharField(max_length=16)
-    NameColor = models.CharField(max_length=16)
-    NameplateColor = models.CharField(max_length=16)
+    Nameplate = models.CharField(max_length=16,blank=True)
+    NameColor = models.CharField(max_length=16,default='Blue')
+    NameplateColor = models.CharField(max_length=16,blank=True)
     UserRegisterDate = models.DateTimeField(auto_now_add=True)
     Contribution = models.FloatField(default=0)
     CompileErrorCount = models.BigIntegerField(default=0)
@@ -28,7 +28,7 @@ class User(AbstractUser):
     OutputLimitExceededCount = models.BigIntegerField(default=0)
     ParticallyCorrectCount = models.BigIntegerField(default=0)
     SystemErrorCount = models.BigIntegerField(default=0)
-    Text = models.TextField()
+    Text = models.TextField(blank=True)
     class Meta:
       verbose_name = '用户' 
       verbose_name_plural = verbose_name #指定模型的复数形式是什么,如果不指定Django会自动在模型名称后加一个’s’
@@ -46,9 +46,10 @@ class Group(models.Model):
     Level = models.CharField(max_length=16, choices=LEVEL_CHOICE)
     AllowJoin = models.NullBooleanField()
     isOfficial = models.BooleanField()
-    Admins = models.ForeignKey(
-        User, blank=True, null=True, on_delete=models.SET_NULL)
-
+    Admins = models.ManyToManyField(
+        User, blank=True, null=True, related_name='admins')
+    Users = models.ManyToManyField(
+        User, blank=True, null=True, related_name='users')
     def __str__(self):
         return self.GroupName
 
