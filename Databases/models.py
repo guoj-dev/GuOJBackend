@@ -7,7 +7,6 @@ import json
 
 
 class User(AbstractUser):
-    nickname = models.CharField(max_length=30, blank=True, null=True, verbose_name='昵称')
     Sexs = [('M','Male'), ('W','Female')]
     Sex = models.CharField(max_length=16, choices=Sexs)
     Avatar = models.URLField()

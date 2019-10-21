@@ -22,13 +22,13 @@ from . import settings
 
 
 routers=routers.DefaultRouter()
-routers.register('users',UserViewSet)
+routers.register('users',UserViewSet,basename='user')
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(routers.urls)),
-    path('api/auth/', include('rest_auth.urls')),
-    path('api/auth/registration/', include('rest_auth.registration.urls')),
+    path('auth/', include('rest_auth.urls')),
+    path('auth/registration/', include('rest_auth.registration.urls')),
     #path('users/', include('users.urls')),
 ]
