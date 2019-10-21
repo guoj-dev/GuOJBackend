@@ -157,25 +157,25 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 
 ACCOUNT_EMAIL_REQUIRED = True
 
-EMAIL_HOST = "smtp.qq.com"
+EMAIL_HOST = config['Email']['EmailServer']
 
-EMAIL_PORT = 25
+EMAIL_PORT = config['Email']['EmailPort']
 
-EMAIL_HOST_USER = ""
+EMAIL_HOST_USER = config['Email']['EmailUser']
 
-EMAIL_HOST_PASSWORD = "password" 
+EMAIL_HOST_PASSWORD = config['Email']['EmailPassword'] 
 
-EMAIL_USE_SSL = True
+EMAIL_USE_SSL = config['Email']['UseSSL']
 
-EMAIL_FROM = "" 
+EMAIL_FROM = config['Email']['EmailFrom'] 
 
-DEFAULT_FROM_EMAIL = "" 
+DEFAULT_FROM_EMAIL = config['Email']['DefaultEmailFrom'] 
 
 ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN = 60
 
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 
-ACCOUNT_EMAIL_VERIFICATION = "madatory"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 

@@ -20,7 +20,7 @@ from API.views import *
 from . import settings
 
 
-
+import rest_auth.registration.urls
 routers=routers.DefaultRouter()
 routers.register('users',UserViewSet,basename='user')
 
@@ -30,5 +30,4 @@ urlpatterns = [
     path('api/', include(routers.urls)),
     path('auth/', include('rest_auth.urls')),
     path('auth/registration/', include('rest_auth.registration.urls')),
-    #path('users/', include('users.urls')),
 ]
