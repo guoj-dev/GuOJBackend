@@ -8,8 +8,8 @@ User = get_user_model()
 class UserDataSerializers(serializers.ModelSerializer):
     class Meta:
         model = User
-        exclude=['password','user_permissions','groups','last_login','first_name','last_name','is_staff','date_joined']
-        read_only_fields = ['id','username','is_superuser','is_active','Coins','Rating','Experience','Nameplate','NameColor','NameplateColor','UserRegisterDate','Contribution','CompileErrorCount','AcceptedCount','WrongAnswerCount','RuntimeErrorCount','TimeLimitExceededCount','MemoryLimitExceededCount','OutputLimitExceededCount','ParticallyCorrectCount','SystemErrorCount','email']
+        exclude=['password','user_permissions','groups','last_login','first_name','last_name','is_staff','date_joined',]
+        read_only_fields = ['id','username','is_superuser','is_active','Coins','Rating','Experience','Nameplate','NameColor','NameplateColor','UserRegisterDate','Contribution','CompileErrorCount','AcceptedCount','WrongAnswerCount','RuntimeErrorCount','TimeLimitExceededCount','MemoryLimitExceededCount','OutputLimitExceededCount','ParticallyCorrectCount','SystemErrorCount','email','CreatedProblemSetCount','CreatedProblemCount']
         depths = 1
 
 # TODO: Finish Problem Serializers

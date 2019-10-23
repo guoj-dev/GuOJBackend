@@ -28,6 +28,8 @@ class User(AbstractUser):
     ParticallyCorrectCount = models.BigIntegerField(default=0)
     SystemErrorCount = models.BigIntegerField(default=0)
     Text = models.TextField(blank=True)
+    CreatedProblemSetCount = models.BigIntegerField(default=0)
+    CreatedProblemCount = models.BigIntegerField(default=0)
     class Meta:
       verbose_name = '用户' 
       verbose_name_plural = verbose_name 
