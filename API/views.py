@@ -33,3 +33,23 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         return Response({'detail':'您没有执行该操作的权限。'})
+
+class ProblemSetViewSet(viewsets.ModelViewSet):
+    queryset = ProblemSet.objects.all()
+    serializer_class = ProblemSetSerializers
+    filter_backends = [filters.SearchFilter,
+                       filters.OrderingFilter, DjangoFilterBackend]
+    def retrieve(self, request, pk=None):
+        problemset = self.get_object()
+        serializer = self.get_serializer(problemset)
+        return Response(serializer.data)
+
+class ProblemViewSet(viewsets.ModelViewSet):
+    queryset = Problem.objects.all()
+    serializer_class = ProblemSerializers
+    filter_backends = [filters.SearchFilter,
+                       filters.OrderingFilter, DjangoFilterBackend]
+    def retrieve(self, request, pk=None):
+        problem = self.get_object()
+        serializer = self.get_serializer(problem)
+        return Response(serializer.data)

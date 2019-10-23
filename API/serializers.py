@@ -12,16 +12,17 @@ class UserDataSerializers(serializers.ModelSerializer):
         read_only_fields = ['id','username','is_superuser','is_active','Coins','Rating','Experience','Nameplate','NameColor','NameplateColor','UserRegisterDate','Contribution','CompileErrorCount','AcceptedCount','WrongAnswerCount','RuntimeErrorCount','TimeLimitExceededCount','MemoryLimitExceededCount','OutputLimitExceededCount','ParticallyCorrectCount','SystemErrorCount','email']
         depths = 1
 
-class ProblemSetSerializers(serializers.ModuleSerializer):
+# TODO: Finish Problem Serializers
+class ProblemSetSerializers(serializers.ModelSerializer):
     class Meta:
         model = ProblemSet
-        exclude=[]
+        exclude=['AuthedUser','Group']
         read_only_fields = []
         depth = 1
 
-class ProblemSerializers(serializers.ModuleSerializer):
+class ProblemSerializers(serializers.ModelSerializer):
     class Meta:
         model = Problem
-        exclude=[]
+        exclude=["ProblemProvider_overwrite","ProblemProviderUser","ProblemSet","ProblemDataPath","ProblemProviderGroup"]
         read_only_fields = []
         depth = 1

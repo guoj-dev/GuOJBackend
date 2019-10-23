@@ -23,6 +23,8 @@ from . import settings
 import rest_auth.registration.urls
 routers=routers.DefaultRouter()
 routers.register('users',UserViewSet,basename='user')
+routers.register('problemsets',ProblemSetViewSet,basename='problemset')
+routers.register('problems',ProblemViewSet,basename='problem')
 
 
 urlpatterns = [
