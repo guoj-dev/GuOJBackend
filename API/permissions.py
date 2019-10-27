@@ -11,3 +11,8 @@ class ProblemSetPermissions(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return True
         #TODO: Add permissions
+
+class ProblemPermissions(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return True
+        #TODO: Add permissions
