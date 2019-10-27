@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import viewsets,mixins
 from rest_framework.response import Response
 from rest_framework.exceptions import ErrorDetail, ValidationError
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import permission_classes as permission_classed
 
 User = get_user_model()
 
@@ -64,7 +64,7 @@ class ProblemViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter,
                        filters.OrderingFilter, DjangoFilterBackend]
     permission_classes = []
-    
+
     def retrieve(self, request, pk=None):
         problem = self.get_object()
         serializer = self.get_serializer(problem)
