@@ -35,7 +35,7 @@ ALLOWED_HOSTS = config['AllowedHosts']
 # Application definition
 
 INSTALLED_APPS = [
-    'simpleui',
+    #'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -166,6 +166,8 @@ EMAIL_HOST_USER = config['Email']['EmailUser']
 EMAIL_HOST_PASSWORD = config['Email']['EmailPassword'] 
 
 EMAIL_USE_SSL = config['Email']['UseSSL']
+
+EMAIL_USE_TLS = config['Email']['UseTLS']
 
 EMAIL_FROM = config['Email']['EmailFrom'] 
 

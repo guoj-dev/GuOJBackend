@@ -3,7 +3,7 @@
         "DatabaseName":"",
         "DatabaseUser":"",
         "DatabasePassword":"",
-        "DatabaseHost":"localhost",
+        "DatabaseHost":"",
         "DatabasePort":""
     },
     "Gist-Username": "",
@@ -14,7 +14,8 @@
     "Email":{
         "EmailServer":"",
         "EmailPort":"",
-        "UseSSL":true,
+        "UseSSL":false,
+        "UseTLS":true,
         "EmailUser":"",
         "EmailPassword":"",
         "EmailFrom":"",
