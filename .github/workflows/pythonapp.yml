@@ -27,6 +27,8 @@ jobs:
         pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Codecov
       uses: codecov/codecov-action@v1.0.4
+      with:
+        token: 467ba254-5575-4a47-86eb-afaad4eec633
 
     #- name: Test with pytest
     #  run: |
