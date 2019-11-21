@@ -25,6 +25,10 @@ jobs:
         pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Coveralls
+      run: |
+        pipenv install codecov
+        pipenv run codecov --token=467ba254-5575-4a47-86eb-afaad4eec633
     #- name: Test with pytest
     #  run: |
     #    pipenv install pytest --skip-lock
