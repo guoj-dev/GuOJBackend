@@ -116,3 +116,5 @@ JudgeData/*
 .idea
 
 .vscode
+
+Pipfile.lock
