@@ -18,6 +18,8 @@ from rest_framework import routers
 from django.urls import include, path
 from API.views import *
 from . import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 
 
 import rest_auth.registration.urls
@@ -33,3 +35,5 @@ urlpatterns = [
     path('auth/', include('rest_auth.urls')),
     path('auth/registration/', include('rest_auth.registration.urls')),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
