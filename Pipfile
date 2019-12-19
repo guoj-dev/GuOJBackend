@@ -28,6 +28,7 @@ django-celery-beat = "*"
 eventlet = "*"
 django-celery-results = "*"
 psycopg2-binary = "*"
+meinheld = "*"
 
 [requires]
 python_version = "3.8"
