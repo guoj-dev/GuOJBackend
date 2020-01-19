@@ -91,7 +91,8 @@ class Problem(models.Model):
         Group, blank=True, null=True, on_delete=models.SET_NULL, related_name='Problem')
     # This will Overwrite the Provider!
     ProblemProvider_overwrite = models.TextField()
-    # TODO:ProblemLevel
+    ProblemLevel=models.FloatField()
+    ProblemLevel_overwrite=models.FloatField()
     ProblemTitle = models.TextField()
     ProblemDescription = models.TextField()
     ProblemDataPath = models.TextField()

@@ -58,6 +58,9 @@ INSTALLED_APPS = [
     'Databases',
     'Judgement',
     'API',
+    'xadmin',
+    'crispy_forms',
+    'reversion'
 ]
 
 MIDDLEWARE = [

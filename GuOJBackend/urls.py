@@ -19,8 +19,9 @@ from django.urls import include, path
 from API.views import *
 from . import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+import xadmin
 
-
+admin.site.site_header='GuOJ 后台管理'
 
 import rest_auth.registration.urls
 routers=routers.DefaultRouter()
@@ -31,6 +32,7 @@ routers.register('problems',ProblemViewSet,basename='problem')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('xadmin/', xadmin.site.urls),
     path('api/', include(routers.urls)),
     path('auth/', include('rest_auth.urls')),
     path('auth/registration/', include('rest_auth.registration.urls')),

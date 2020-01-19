@@ -4,7 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from API.serializers import *
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
-from rest_framework import viewsets,mixins
+from rest_framework import viewsets, mixins
 from rest_framework.response import Response
 from rest_framework.exceptions import ErrorDetail, ValidationError
 from rest_framework.decorators import permission_classes as permission_classed
@@ -27,15 +27,16 @@ class UserViewSet(viewsets.ModelViewSet):
         user = self.get_object()
         serializer = self.get_serializer(user)
         return Response(serializer.data)
-    
+
     @permission_classed(permission_classes)
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        return Response({'detail':'您没有执行该操作的权限。Test'})
+        return Response({'detail': '您没有执行该操作的权限。Test'})
 
     def destroy(self, request, *args, **kwargs):
-        return Response({'detail':'您没有执行该操作的权限。Test'})
+        return Response({'detail': '您没有执行该操作的权限。Test'})
+
 
 class ProblemSetViewSet(viewsets.ModelViewSet):
     queryset = ProblemSet.objects.all()
@@ -49,15 +50,16 @@ class ProblemSetViewSet(viewsets.ModelViewSet):
         problemset = self.get_object()
         serializer = self.get_serializer(problemset)
         return Response(serializer.data)
-    
+
     @permission_classed(permission_classes)
     def create(self, request, *args, **kwargs):
         pass
-    
+
     @permission_classed(permission_classes)
     def destroy(self, request, *args, **kwargs):
         pass
-    
+
+
 class ProblemViewSet(viewsets.ModelViewSet):
     queryset = Problem.objects.all()
     serializer_class = ProblemSerializers
@@ -69,11 +71,11 @@ class ProblemViewSet(viewsets.ModelViewSet):
         problem = self.get_object()
         serializer = self.get_serializer(problem)
         return Response(serializer.data)
-    
+
     @permission_classed(permission_classes)
     def create(self, request, *args, **kwargs):
         pass
-    
+
     @permission_classed(permission_classes)
     def destroy(self, request, *args, **kwargs):
         pass
