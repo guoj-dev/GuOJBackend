@@ -153,6 +153,7 @@ class Discussion(models.Model):
     Like = models.BigIntegerField()
     DisLike = models.BigIntegerField()
     DownVote = models.BigIntegerField()
+    isDeleted = models.BooleanField(default=false)
     class Meta:
       verbose_name = '讨论' 
       verbose_name_plural = verbose_name 
@@ -168,6 +169,7 @@ class Comment(models.Model):
     Like = models.BigIntegerField()
     DisLike = models.BigIntegerField()
     DownVote = models.BigIntegerField()
+    isDeleted = models.BooleanField(default=false)
     class Meta:
       verbose_name = '评论' 
       verbose_name_plural = verbose_name 
