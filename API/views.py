@@ -79,3 +79,23 @@ class ProblemViewSet(viewsets.ModelViewSet):
     @permission_classed(permission_classes)
     def destroy(self, request, *args, **kwargs):
         pass
+
+class NoticeViewSet(viewsets.ModelViewSet):
+    queryset = Notice.objects.all()
+    serializer_class = NoticeSerializers
+    filter_backends = [filters.SearchFilter,
+                       filters.OrderingFilter, DjangoFilterBackend]
+    permission_classes = []
+
+    def retrieve(self, request, pk=None):
+        notice = self.get_object()
+        serializer = self.get_serializer(notice)
+        return Response(serializer.data)
+
+    @permission_classed(permission_classes)
+    def create(self, request, *args, **kwargs):
+        pass
+
+    @permission_classed(permission_classes)
+    def destroy(self, request, *args, **kwargs):
+        pass

@@ -1,7 +1,7 @@
 from Databases.models import Problem
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from Databases.models import Problem,ProblemSet
+from Databases.models import Problem,ProblemSet,Notice
 User = get_user_model()
 
 
@@ -24,5 +24,12 @@ class ProblemSerializers(serializers.ModelSerializer):
     class Meta:
         model = Problem
         exclude=["ProblemProvider_overwrite","ProblemProviderUser","ProblemSet","ProblemDataPath","ProblemProviderGroup"]
+        read_only_fields = []
+        depth = 1
+
+class NoticeSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Notice
+        exclude=[]
         read_only_fields = []
         depth = 1

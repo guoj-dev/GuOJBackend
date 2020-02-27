@@ -91,8 +91,8 @@ class Problem(models.Model):
         Group, blank=True, null=True, on_delete=models.SET_NULL, related_name='Problem')
     # This will Overwrite the Provider!
     ProblemProvider_overwrite = models.TextField()
-    ProblemLevel=models.FloatField()
-    ProblemLevel_overwrite=models.FloatField()
+    ProblemLevel=models.FloatField(default=0)
+    ProblemLevel_overwrite=models.FloatField(default=0)
     ProblemTitle = models.TextField()
     ProblemDescription = models.TextField()
     ProblemDataPath = models.TextField()
@@ -220,7 +220,7 @@ class JudgeData(models.Model):
         (SystemError, 'SystemError')
     }
     JudgeStatus = models.CharField(max_length=64, choices=STATUS_CHOICES)
-    Score = models.FloatField()
+    Score = models.FloatField(default=0)
     LocalID = models.BigIntegerField()
     ProblemSet = models.ForeignKey(ProblemSet, blank=True, null=True, on_delete=models.SET_NULL)
     Problem = models.ForeignKey(Problem, blank=True, null=True, on_delete=models.SET_NULL)
@@ -230,4 +230,13 @@ class JudgeData(models.Model):
     isPublic = models.BooleanField()
     class Meta:
       verbose_name = '评测任务' 
+      verbose_name_plural = verbose_name 
+
+class Notice(models.Model):
+    Title=models.TextField()
+    Color=models.TextField()
+    Background=models.TextField(default='null')
+    Type=models.TextField(default='Color')
+    class Meta:
+      verbose_name = '公告' 
       verbose_name_plural = verbose_name 
