@@ -64,17 +64,6 @@
             ],
             "version": "==3.6.2.0"
         },
-        "celery": {
-            "extras": [
-                "librabbitmq"
-            ],
-            "hashes": [
-                "sha256:7c544f37a84a5eadc44cab1aa8c9580dff94636bb81978cdf9bf8012d9ea7d8f",
-                "sha256:d3363bb5df72d74420986a435449f3c3979285941dff57d5d97ecba352a0e3e2"
-            ],
-            "index": "pypi",
-            "version": "==4.4.0"
-        },
         "certifi": {
             "hashes": [
                 "sha256:017c25db2a153ce562900032d5bc68e9f191e44e9a0f762f373977de9df1fbb3",
@@ -197,22 +186,6 @@
             ],
             "index": "pypi",
             "version": "==0.41.0"
-        },
-        "django-celery-beat": {
-            "hashes": [
-                "sha256:61c92d4b600a9f24406ee0b8d01a9b192253e15d047e3325e1d81e2cacf7aba6",
-                "sha256:659b39232c454ac27022bf679939bce0471fd482f3ee9276f5199716cb4afad9"
-            ],
-            "index": "pypi",
-            "version": "==1.5.0"
-        },
-        "django-celery-results": {
-            "hashes": [
-                "sha256:932277e9382528f74778b30cf90e17941cba577b7d73cee09ed55e4972972c32",
-                "sha256:e735dc3e705a0e21afc3b6fa2918ec388258145fcbaad3727c493c5707d25034"
-            ],
-            "index": "pypi",
-            "version": "==1.1.2"
         },
         "django-crispy-forms": {
             "hashes": [
