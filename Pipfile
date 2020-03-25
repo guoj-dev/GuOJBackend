@@ -28,6 +28,7 @@ eventlet = "*"
 psycopg2-binary = "*"
 meinheld = "*"
 xadmin2 = "*"
+django-apscheduler = "*"
 
 [requires]
 python_version = "3.8"
