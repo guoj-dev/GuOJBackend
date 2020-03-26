@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     'API',
     'xadmin',
     'crispy_forms',
-    'reversion'
+    'reversion',
+    "django_apscheduler",
 ]
 
 MIDDLEWARE = [

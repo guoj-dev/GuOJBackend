@@ -48,9 +48,9 @@ class Group(models.Model):
     AllowJoin = models.NullBooleanField()
     isOfficial = models.BooleanField()
     Admins = models.ManyToManyField(
-        User, blank=True, null=True, related_name='admins')
+        User, blank=True, related_name='admins')
     Users = models.ManyToManyField(
-        User, blank=True, null=True, related_name='users')
+        User, blank=True, related_name='users')
     def __str__(self):
         return self.GroupName
 
