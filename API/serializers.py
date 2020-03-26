@@ -12,7 +12,6 @@ class UserDataSerializers(serializers.ModelSerializer):
         read_only_fields = ['id','username','is_superuser','is_active','Coins','Rating','Experience','Nameplate','NameColor','NameplateColor','UserRegisterDate','Contribution','CompileErrorCount','AcceptedCount','WrongAnswerCount','RuntimeErrorCount','TimeLimitExceededCount','MemoryLimitExceededCount','OutputLimitExceededCount','ParticallyCorrectCount','SystemErrorCount','email','CreatedProblemSetCount','CreatedProblemCount']
         depths = 1
 
-# TODO: Finish Problem Serializers
 class ProblemSetSerializers(serializers.ModelSerializer):
     class Meta:
         model = ProblemSet
@@ -31,5 +30,5 @@ class NoticeSerializers(serializers.ModelSerializer):
     class Meta:
         model = Notice
         exclude=[]
-        read_only_fields = []
+        read_only_fields = ['Title','Color','Background','Type']
         depth = 1
