@@ -67,9 +67,9 @@ class ProblemSet(models.Model):
     }
     ProblemSetName = models.TextField()
     ProblemSetPrefix = models.TextField()
-    Group = models.ManyToManyField(Group, related_name='ProblemSet')
+    Group = models.ForeignKey(Group,null=True,blank=True, related_name='ProblemSet' , on_delete=models.SET_NULL)
     Permission = models.CharField(max_length=16, choices=PERMISSION_CHOICE)
-    AuthedUser = models.ManyToManyField(User)
+    AuthedUser = models.ManyToManyField(User,blank=True)
 
     def __str__(self):
         return self.ProblemSetName

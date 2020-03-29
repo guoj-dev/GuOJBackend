@@ -47,8 +47,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_auth',
-    'rest_auth.registration',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
     'django_filters',
     #'gunicorn',
     'channels',
@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'reversion',
     "django_apscheduler",
+    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +77,7 @@ ROOT_URLCONF = 'GuOJBackend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -201,4 +202,12 @@ AUTHENTICATION_BACKENDS = (
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
+OLD_PASSWORD_FIELD_ENABLED = True
+
+ACCOUNT_ADAPTER = 'GuOJBackend.adapter.CustomAccountAdapter'
+
+REST_AUTH_SERIALIZERS = {
+    'PASSWORD_RESET_SERIALIZER': 'API.serializers.PasswordResetSerializer',
 }

@@ -10,6 +10,7 @@ verify_ssl = true
 
 [dev-packages]
 autopep8 = "*"
+pylint = "*"
 
 [packages]
 django = "*"
@@ -23,12 +24,13 @@ gunicorn = "*"
 gevent = "*"
 amqp = "*"
 djangorestframework = "*"
-django-rest-auth = "*"
 eventlet = "*"
 psycopg2-binary = "*"
 meinheld = "*"
 xadmin2 = "*"
 django-apscheduler = "*"
+dj-rest-auth = {extras = ["with_social"],version = "*"}
+django-rest-passwordreset = "*"
 
 [requires]
 python_version = "3.8"

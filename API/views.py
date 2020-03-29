@@ -8,6 +8,7 @@ from rest_framework import viewsets, mixins
 from rest_framework.response import Response
 from rest_framework.exceptions import ErrorDetail, ValidationError
 from rest_framework.decorators import permission_classes as permission_classed
+import API.signals
 
 User = get_user_model()
 
@@ -51,9 +52,9 @@ class ProblemSetViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(problemset)
         return Response(serializer.data)
 
-    @permission_classed(permission_classes)
-    def create(self, request, *args, **kwargs):
-        pass
+    # @permission_classed(permission_classes)
+    # def create(self, request, *args, **kwargs):
+    #    pass
 
     @permission_classed(permission_classes)
     def destroy(self, request, *args, **kwargs):
@@ -83,18 +84,12 @@ class ProblemViewSet(viewsets.ModelViewSet):
 class NoticeViewSet(viewsets.ModelViewSet):
     queryset = Notice.objects.all()
     serializer_class = NoticeSerializers
-    filter_backends = [filters.SearchFilter,
-                       filters.OrderingFilter, DjangoFilterBackend]
     permission_classes = []
 
     def retrieve(self, request, pk=None):
         notice = self.get_object()
         serializer = self.get_serializer(notice)
         return Response(serializer.data)
-
-    @permission_classed(permission_classes)
-    def create(self, request, *args, **kwargs):
-        pass
 
     @permission_classed(permission_classes)
     def destroy(self, request, *args, **kwargs):
