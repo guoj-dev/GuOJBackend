@@ -90,7 +90,3 @@ class NoticeViewSet(viewsets.ModelViewSet):
         notice = self.get_object()
         serializer = self.get_serializer(notice)
         return Response(serializer.data)
-
-    @permission_classed(permission_classes)
-    def destroy(self, request, *args, **kwargs):
-        pass

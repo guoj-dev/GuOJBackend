@@ -35,8 +35,5 @@ class NoticeSerializers(serializers.ModelSerializer):
         read_only_fields = ['Title','Color','Background','Type']
         depth = 1
 
-class PasswordResetSerializer (PasswordResetSerializer):
-    password_reset_form_class = ResetPasswordForm
-
 
     
