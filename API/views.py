@@ -52,13 +52,6 @@ class ProblemSetViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(problemset)
         return Response(serializer.data)
 
-    # @permission_classed(permission_classes)
-    # def create(self, request, *args, **kwargs):
-    #    pass
-
-    @permission_classed(permission_classes)
-    def destroy(self, request, *args, **kwargs):
-        pass
 
 
 class ProblemViewSet(viewsets.ModelViewSet):
@@ -73,13 +66,6 @@ class ProblemViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(problem)
         return Response(serializer.data)
 
-    @permission_classed(permission_classes)
-    def create(self, request, *args, **kwargs):
-        pass
-
-    @permission_classed(permission_classes)
-    def destroy(self, request, *args, **kwargs):
-        pass
 
 class NoticeViewSet(viewsets.ModelViewSet):
     queryset = Notice.objects.all()
