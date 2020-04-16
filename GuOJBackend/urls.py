@@ -23,7 +23,6 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from allauth.account.views import confirm_email
 from dj_rest_auth.views import (
     LoginView, LogoutView, PasswordChangeView, UserDetailsView)
-import xadmin
 
 
 admin.site.site_header = 'GuOJ 后台管理'
@@ -37,7 +36,6 @@ routers.register('notice', NoticeViewSet, basename='notice')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('xadmin/', xadmin.site.urls),
     path('api/', include(routers.urls)),
     re_path(r'^api/auth/login/$', LoginView.as_view(), name='rest_login'),
     # URLs that require a user to be logged in with a valid session / token.
