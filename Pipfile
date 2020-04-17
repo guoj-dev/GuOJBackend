@@ -28,6 +28,7 @@ meinheld = "*"
 django-apscheduler = "*"
 dj-rest-auth = {extras = ["with_social"],version = "*"}
 djangorestframework-guardian = "*"
+django-rest-passwordreset = "*"
 
 [requires]
 python_version = "3.8"
