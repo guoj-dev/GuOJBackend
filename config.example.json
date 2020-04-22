@@ -6,6 +6,7 @@
         "DatabaseHost":"",
         "DatabasePort":""
     },
+    "ElasticSearch":"",
     "Gist-Username": "",
     "Gist-Password": "",
     "SecretKey": "",

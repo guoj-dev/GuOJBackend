@@ -55,10 +55,11 @@ INSTALLED_APPS = [
     'Databases',
     'Judgement',
     'API',
-    'crispy_forms',
-    'reversion',
     "django_apscheduler",
     'django_rest_passwordreset',
+    'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl_drf',
+    'guardian',
 ]
 
 MIDDLEWARE = [
@@ -197,6 +198,7 @@ REST_FRAMEWORK = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
 )
 
 REST_FRAMEWORK = {
@@ -209,4 +211,10 @@ ACCOUNT_ADAPTER = 'GuOJBackend.adapter.CustomAccountAdapter'
 
 REST_AUTH_SERIALIZERS = {
     'PASSWORD_RESET_SERIALIZER': 'API.serializers.PasswordResetSerializer',
+}
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': config['ElasticSearch']
+    },
 }

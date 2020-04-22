@@ -29,6 +29,8 @@ django-apscheduler = "*"
 dj-rest-auth = {extras = ["with_social"],version = "*"}
 djangorestframework-guardian = "*"
 django-rest-passwordreset = "*"
+django-guardian = "*"
+django-elasticsearch-dsl-drf = "*"
 
 [requires]
 python_version = "3.8"
