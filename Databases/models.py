@@ -69,7 +69,7 @@ class ProblemSet(models.Model):
     ProblemSetPrefix = models.TextField()
     Group = models.ForeignKey(Group,null=True,blank=True, related_name='ProblemSet' , on_delete=models.SET_NULL)
     Permission = models.CharField(max_length=16, choices=PERMISSION_CHOICE)
-    AuthedUser = models.ManyToManyField(User,blank=True)
+    Owner = models.ForeignKey(User,null=True,blank=True, related_name='ProblemSet' , on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.ProblemSetName

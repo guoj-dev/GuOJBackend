@@ -33,10 +33,16 @@ class UserViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        return Response({'detail': '您没有执行该操作的权限。Test'})
+        return Response({'detail': '您没有执行该操作的权限'})
+        
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
-        return Response({'detail': '您没有执行该操作的权限。Test'})
+        return Response({'detail': '您没有执行该操作的权限'})
+
+    def get_queryset(self):
+        return User.objects.filter(is_active=True)
 
 
 class ProblemSetViewSet(viewsets.ModelViewSet):
@@ -67,7 +73,7 @@ class ProblemViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class NoticeViewSet(viewsets.ModelViewSet):
+class NoticeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Notice.objects.all()
     serializer_class = NoticeSerializers
     permission_classes = []
