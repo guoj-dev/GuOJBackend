@@ -267,8 +267,8 @@ class Notice(models.Model):
 
 class Vote(models.Model):
     Discussion = models.ForeignKey(Discussion, blank=True, null=True, on_delete=models.SET_NULL)
-    UpvoteUsers = models.ManyToManyField(User)
-    DownvoteUsers = models.ManyToManyField(User)
+    UpvoteUsers = models.ManyToManyField(User, related_name='UpvoteUsers')
+    DownvoteUsers = models.ManyToManyField(User, related_name='DownvoteUsers')
     class Meta:
       verbose_name = '投票' 
       verbose_name_plural = verbose_name 
