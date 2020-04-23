@@ -174,28 +174,52 @@ class Comment(models.Model):
       verbose_name = '评论' 
       verbose_name_plural = verbose_name 
 
-
-class Vote(models.Model):
-    Discussion = models.ForeignKey(Discussion, blank=True, null=True, on_delete=models.SET_NULL)
+class Reply(models.Model):
+    User = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.SET_NULL)
     Comment = models.ForeignKey(Comment, blank=True, null=True, on_delete=models.SET_NULL)
+    Number = models.BigIntegerField()
+    Text = models.TextField()
+    ReleaseTime = models.DateTimeField()
+    Like = models.BigIntegerField()
+    DisLike = models.BigIntegerField()
+    DownVote = models.BigIntegerField()
+    isDeleted = models.BooleanField(default=False)
+    class Meta:
+      verbose_name = '回复' 
+      verbose_name_plural = verbose_name 
+
+
+class VoteDiscussion(models.Model):
+    Discussion = models.ForeignKey(Discussion, blank=True, null=True, on_delete=models.SET_NULL)
     User = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
-    DeltaUpvote=models.BigIntegerField()
-    DeltaDownvote=models.BigIntegerField()
+    DeltaVote=models.BigIntegerField()
     isUpvote=models.BooleanField()
     isDeleted=models.BooleanField()
     class Meta:
-      verbose_name = '赞/踩' 
+      verbose_name = '赞/踩 - 讨论' 
       verbose_name_plural = verbose_name 
-    
 
-class paste(models.Model):
-    User = models.ForeignKey(
-        User, blank=True, null=True, on_delete=models.SET_NULL)
-    url = models.TextField()
-    isPublic = models.BooleanField(default=False)
+class VoteComment(models.Model):
+    Comment = models.ForeignKey(Comment, blank=True, null=True, on_delete=models.SET_NULL)
+    User = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
+    DeltaVote=models.BigIntegerField()
+    isUpvote=models.BooleanField()
+    isDeleted=models.BooleanField()
     class Meta:
-      verbose_name = '剪切板' 
-      verbose_name_plural = verbose_name 
+      verbose_name = '赞/踩 - 评论' 
+      verbose_name_plural = verbose_name
+
+class VoteReply(models.Model):
+    Reply = models.ForeignKey(Reply, blank=True, null=True, on_delete=models.SET_NULL)
+    User = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
+    DeltaVote=models.BigIntegerField()
+    isUpvote=models.BooleanField()
+    isDeleted=models.BooleanField()
+    class Meta:
+      verbose_name = '赞/踩 - 回复' 
+      verbose_name_plural = verbose_name
+    
 
 
 class JudgeData(models.Model):
@@ -239,4 +263,12 @@ class Notice(models.Model):
     Type=models.TextField(default='Color')
     class Meta:
       verbose_name = '公告' 
+      verbose_name_plural = verbose_name 
+
+class Vote(models.Model):
+    Discussion = models.ForeignKey(Discussion, blank=True, null=True, on_delete=models.SET_NULL)
+    UpvoteUsers = models.ManyToManyField(User)
+    DownvoteUsers = models.ManyToManyField(User)
+    class Meta:
+      verbose_name = '投票' 
       verbose_name_plural = verbose_name 
