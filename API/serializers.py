@@ -17,14 +17,14 @@ class UserDataSerializers(serializers.ModelSerializer):
 class ProblemSetSerializers(serializers.ModelSerializer):
     class Meta:
         model = ProblemSet
-        exclude=['AuthedUser','Group']
+        exclude=['Group','Owner','created_by']
         read_only_fields = []
         depth = 1
 
 class ProblemSerializers(serializers.ModelSerializer):
     class Meta:
         model = Problem
-        exclude=["ProblemProvider_overwrite","ProblemProviderUser","ProblemSet","ProblemDataPath","ProblemProviderGroup"]
+        exclude=["ProblemProvider_overwrite","ProblemProviderUser","ProblemSet","ProblemProviderGroup",'created_by']
         read_only_fields = []
         depth = 1
 

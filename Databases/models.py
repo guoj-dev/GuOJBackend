@@ -35,7 +35,14 @@ class User(AbstractUser):
       verbose_name_plural = verbose_name 
       ordering = ['-id']
 
+class AbstractObjectMixin:
+    created_by = models.ForeignKey(User,on_delete=models.SET_NULL)
+    owner = models.ManyToManyField(User)
 
+    def is_owner(self, user):
+        if user.is_authenticated:
+            return self.created_by.id==user.id or self.owner.all(id=user.id).count()>0
+        return False
 
 
 class Group(models.Model):
@@ -61,7 +68,7 @@ class Group(models.Model):
       ordering = ['-id']
 
 
-class ProblemSet(models.Model):
+class ProblemSet(models.Model,AbstractObjectMixin):
     PERMISSION_CHOICE = {
         ('S', 'Stricted'), ('SP', 'Private'), ('P', 'Public')
     }
@@ -81,7 +88,7 @@ class ProblemSet(models.Model):
       ordering = ['-id']
 
 
-class Problem(models.Model):
+class Problem(models.Model,AbstractObjectMixin):
     ProblemSet = models.ForeignKey(
         ProblemSet, blank=True, null=True, on_delete=models.SET_NULL)
     LocalProblemID = models.BigIntegerField()
@@ -95,7 +102,7 @@ class Problem(models.Model):
     ProblemLevel_overwrite=models.FloatField(default=0)
     ProblemTitle = models.TextField()
     ProblemDescription = models.TextField()
-    ProblemDataPath = models.TextField()
+    ProblemData = models.FileField(upload_to="uploads/testdata",blank=True,default='')
 
     def __str__(self):
         return self.ProblemTitle
@@ -107,7 +114,7 @@ class Problem(models.Model):
       ordering = ['-id']
 
 
-class Contest(models.Model):
+class Contest(models.Model,AbstractObjectMixin):
     ProviderUser = models.ManyToManyField(User)
     ProviderGroup = models.ForeignKey(
         Group, blank=True, null=True, on_delete=models.SET_NULL, related_name='Contest')
@@ -127,7 +134,7 @@ class Contest(models.Model):
       ordering = ['-id']
 
 
-class ContestSolutions(models.Model):
+class ContestSolutions(models.Model,AbstractObjectMixin):
     ProviderUser = models.ManyToManyField(User)
     ProviderGroup = models.ForeignKey(
         Group, blank=True, null=True, on_delete=models.SET_NULL, related_name='ContestSolutions')
@@ -136,7 +143,7 @@ class ContestSolutions(models.Model):
     ReleaseTime = models.DateTimeField()
 
 
-class Discussion(models.Model):
+class Discussion(models.Model,AbstractObjectMixin):
     User = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL)
     ProblemSet = models.ForeignKey(
@@ -159,7 +166,7 @@ class Discussion(models.Model):
       verbose_name_plural = verbose_name 
 
 
-class Comment(models.Model):
+class Comment(models.Model,AbstractObjectMixin):
     User = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL)
     Discussion = models.ForeignKey(Discussion, blank=True, null=True, on_delete=models.SET_NULL)
@@ -174,7 +181,7 @@ class Comment(models.Model):
       verbose_name = '评论' 
       verbose_name_plural = verbose_name 
 
-class Reply(models.Model):
+class Reply(models.Model,AbstractObjectMixin):
     User = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL)
     Comment = models.ForeignKey(Comment, blank=True, null=True, on_delete=models.SET_NULL)
@@ -222,7 +229,7 @@ class VoteReply(models.Model):
     
 
 
-class JudgeData(models.Model):
+class JudgeData(models.Model,AbstractObjectMixin):
     CompileError = 'CE'
     Accepted = 'AC'
     WrongAnswer = 'WA'

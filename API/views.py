@@ -23,24 +23,6 @@ class UserViewSet(viewsets.ModelViewSet):
     filterset_fields = ('id', 'username')
     permission_classes = (UserSafePermissions,)
 
-    @permission_classed(permission_classes)
-    def retrieve(self, request, pk=None):
-        user = self.get_object()
-        serializer = self.get_serializer(user)
-        return Response(serializer.data)
-
-    @permission_classed(permission_classes)
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return Response({'detail': '您没有执行该操作的权限'})
-        
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
-
-    def destroy(self, request, *args, **kwargs):
-        return Response({'detail': '您没有执行该操作的权限'})
-
     def get_queryset(self):
         return User.objects.filter(is_active=True)
 
@@ -50,13 +32,10 @@ class ProblemSetViewSet(viewsets.ModelViewSet):
     serializer_class = ProblemSetSerializers
     filter_backends = [filters.SearchFilter,
                        filters.OrderingFilter, DjangoFilterBackend]
-    permission_classes = []
+    permission_classes = [ProblemSetPermissions]
 
-    @permission_classed(permission_classes)
-    def retrieve(self, request, pk=None):
-        problemset = self.get_object()
-        serializer = self.get_serializer(problemset)
-        return Response(serializer.data)
+    def perform_create(self, serializer):
+        serializer.save(created_by=serializers.CurrentUserDefault())
 
 
 
