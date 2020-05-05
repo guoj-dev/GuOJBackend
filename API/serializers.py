@@ -17,15 +17,14 @@ class UserDataSerializers(serializers.ModelSerializer):
 class ProblemSetSerializers(serializers.ModelSerializer):
     class Meta:
         model = ProblemSet
-        exclude=['Group','Owner','created_by']
-        read_only_fields = []
-        depth = 1
+        exclude=['Group']
+        read_only_fields = ('owner',)
 
 class ProblemSerializers(serializers.ModelSerializer):
     class Meta:
         model = Problem
-        exclude=["ProblemProvider_overwrite","ProblemProviderUser","ProblemSet","ProblemProviderGroup",'created_by']
-        read_only_fields = []
+        exclude=["ProblemProvider_overwrite","ProblemProviderUser","ProblemSet","ProblemProviderGroup"]
+        read_only_fields = ['created_by','owner']
         depth = 1
 
 class NoticeSerializers(serializers.ModelSerializer):

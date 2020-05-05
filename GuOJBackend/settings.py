@@ -218,3 +218,6 @@ ELASTICSEARCH_DSL = {
         'hosts': config['ElasticSearch']
     },
 }
+
+
+ANONYMOUS_USER_ID=-1
