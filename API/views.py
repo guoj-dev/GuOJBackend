@@ -7,8 +7,9 @@ from django.contrib.auth import get_user_model
 from rest_framework import viewsets, mixins
 from rest_framework.response import Response
 from rest_framework.exceptions import ErrorDetail, ValidationError
-from rest_framework.decorators import permission_classes as permission_classed
+from rest_framework.decorators import permission_classes as permission_classed, action
 import API.signals
+from guardian.shortcuts import assign_perm, remove_perm
 
 User = get_user_model()
 
@@ -37,6 +38,20 @@ class ProblemSetViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(created_by=serializers.CurrentUserDefault())
 
+    @action(method=['post'], detail=True)
+    def authorize(self, request, pk):
+        this_object=ProblemSet.objects.get(pk=pk)
+        if request.user.is_authenticated() and request.user.has_perm('ProblemSet.admin',this_object):
+            if request.data.view:
+                assign_perm('view',request.user,this_object)
+            if request.data.create:
+                assign_perm('create',request.user,this_object)
+            if request.data.update:
+                assign_perm('update',request.user,this_object)
+            if request.data.admin:
+                assign_perm('admin',request.user,this_object)
+        else:
+            self.permission_denied(request, "Unauthorized Action")
 
 
 class ProblemViewSet(viewsets.ModelViewSet):
@@ -46,18 +61,8 @@ class ProblemViewSet(viewsets.ModelViewSet):
                        filters.OrderingFilter, DjangoFilterBackend]
     permission_classes = []
 
-    def retrieve(self, request, pk=None):
-        problem = self.get_object()
-        serializer = self.get_serializer(problem)
-        return Response(serializer.data)
-
 
 class NoticeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Notice.objects.all()
     serializer_class = NoticeSerializers
     permission_classes = []
-
-    def retrieve(self, request, pk=None):
-        notice = self.get_object()
-        serializer = self.get_serializer(notice)
-        return Response(serializer.data)

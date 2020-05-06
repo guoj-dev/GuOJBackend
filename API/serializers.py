@@ -23,16 +23,14 @@ class ProblemSetSerializers(serializers.ModelSerializer):
 class ProblemSerializers(serializers.ModelSerializer):
     class Meta:
         model = Problem
-        exclude=["ProblemProvider_overwrite","ProblemProviderUser","ProblemSet","ProblemProviderGroup"]
-        read_only_fields = ['created_by','owner']
-        depth = 1
+        exclude=[]
+        read_only_fields = ["ProblemSet","ProblemProvider_overwrite","ProblemProviderUser","ProblemProviderGroup"]
 
 class NoticeSerializers(serializers.ModelSerializer):
     class Meta:
         model = Notice
         exclude=[]
         read_only_fields = ['Title','Color','Background','Type']
-        depth = 1
 
 
     

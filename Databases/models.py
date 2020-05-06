@@ -138,7 +138,20 @@ class Problem(models.Model):
         verbose_name = '题目'
         verbose_name_plural = verbose_name
         ordering = ['-id']
+        permissions = (
+            ('view','Can View ProblemSet'),
+            ('create','Can Create Problem'),
+            ('update','Can Update Problem')
+            ('admin','Full Permission')
+        )
     
+@receiver(post_save, sender=Problem)
+def createproblem(sender, instance=None, created=False, **kwargs):
+    if created:
+        assign_perm('view',sender.ProblemProviderUser,sender)
+        assign_perm('create',sender.ProblemProviderUser,sender)
+        assign_perm('update',sender.ProblemProviderUser,sender)
+        assign_perm('admin',sender.ProblemProviderUser,sender)
 
 
 
