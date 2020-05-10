@@ -32,5 +32,4 @@ class NoticeSerializers(serializers.ModelSerializer):
         exclude=[]
         read_only_fields = ['Title','Color','Background','Type']
 
-
     

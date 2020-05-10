@@ -40,16 +40,31 @@ class ProblemSetViewSet(viewsets.ModelViewSet):
 
     @action(method=['post'], detail=True)
     def authorize(self, request, pk):
-        this_object=ProblemSet.objects.get(pk=pk)
-        if request.user.is_authenticated() and request.user.has_perm('ProblemSet.admin',this_object):
+        this_object = ProblemSet.objects.get(pk=pk)
+        if (request.user.is_authenticated() and request.user.has_perm('ProblemSet.admin', this_object)) or request.user.is_staff:
             if request.data.view:
-                assign_perm('view',request.user,this_object)
+                assign_perm('view', request.user, this_object)
             if request.data.create:
-                assign_perm('create',request.user,this_object)
+                assign_perm('create', request.user, this_object)
             if request.data.update:
-                assign_perm('update',request.user,this_object)
+                assign_perm('update', request.user, this_object)
             if request.data.admin:
-                assign_perm('admin',request.user,this_object)
+                assign_perm('admin', request.user, this_object)
+        else:
+            self.permission_denied(request, "Unauthorized Action")
+
+    @action(method=['post'], detail=True)
+    def disauth(self, request, pk):
+        this_object = ProblemSet.objects.get(pk=pk)
+        if (request.user.is_authenticated() and request.user.has_perm('ProblemSet.admin', this_object)) or request.user.is_staff:
+            if request.data.view:
+                remove_perm('view', request.user, this_object)
+            if request.data.create:
+                remove_perm('create', request.user, this_object)
+            if request.data.update:
+                remove_perm('update', request.user, this_object)
+            if request.data.admin:
+                remove_perm('admin', request.user, this_object)
         else:
             self.permission_denied(request, "Unauthorized Action")
 
