@@ -8,16 +8,6 @@ from guardian.shortcuts import assign_perm, remove_perm
 
 # Create your models here.
 
-
-class User(AbstractUser):
-    UserProfile = models.OneToOneField(UserProfile,on_delete=models.CASCADE);
-
-    class Meta:
-        verbose_name = '用户'
-        verbose_name_plural = verbose_name
-        ordering = ['-id']
-
-
 class UserProfile(models.Model):
     Sexs = [('M', 'Male'), ('W', 'Female')]
     Sex = models.CharField(max_length=16, choices=Sexs)
@@ -47,6 +37,18 @@ class UserProfile(models.Model):
         verbose_name = '用户信息'
         verbose_name_plural = verbose_name
         ordering = ['-id']
+
+
+class User(AbstractUser):
+    UserProfile = models.OneToOneField(UserProfile,on_delete=models.CASCADE);
+
+    class Meta:
+        verbose_name = '用户'
+        verbose_name_plural = verbose_name
+        ordering = ['-id']
+
+
+
 
 class Group(models.Model):
     LEVEL_CHOICE = {
