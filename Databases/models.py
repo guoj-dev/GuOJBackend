@@ -92,8 +92,8 @@ class ProblemSet(models.Model):
         permissions = (
             ('view','Can View ProblemSet'),
             ('create','Can Create Problem'),
-            ('update','Can Update Problem')
-            ('admin','Full Permission')
+            ('update','Can Update Problem'),
+            ('admin','Full Permission'),
         )
 
 
@@ -143,8 +143,8 @@ class Problem(models.Model):
         permissions = (
             ('view','Can View ProblemSet'),
             ('create','Can Create Problem'),
-            ('update','Can Update Problem')
-            ('admin','Full Permission')
+            ('update','Can Update Problem'),
+            ('admin','Full Permission'),
         )
     
 @receiver(post_save, sender=Problem)

@@ -11,6 +11,7 @@ verify_ssl = true
 [dev-packages]
 autopep8 = "*"
 pylint = "*"
+pylint-django = "*"
 
 [packages]
 django = "*"
