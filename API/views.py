@@ -76,6 +76,35 @@ class ProblemViewSet(viewsets.ModelViewSet):
                        filters.OrderingFilter, DjangoFilterBackend]
     permission_classes = []
 
+    @action(method=['post'], detail=True)
+    def authorize(self, request, pk):
+        this_object = Problem.objects.get(pk=pk)
+        if (request.user.is_authenticated() and request.user.has_perm('Problem.admin', this_object)) or request.user.is_staff:
+            if request.data.view:
+                assign_perm('view', User.objects.get(request.data.userid), this_object)
+            if request.data.create:
+                assign_perm('create', User.objects.get(request.data.userid), this_object)
+            if request.data.update:
+                assign_perm('update', User.objects.get(request.data.userid), this_object)
+            if request.data.admin:
+                assign_perm('admin', User.objects.get(request.data.userid), this_object)
+        else:
+            self.permission_denied(request, "Unauthorized Action")
+
+    @action(method=['post'], detail=True)
+    def disauth(self, request, pk):
+        this_object = Problem.objects.get(pk=pk)
+        if (request.user.is_authenticated() and request.user.has_perm('Problem.admin', this_object)) or request.user.is_staff:
+            if request.data.view:
+                remove_perm('view', User.objects.get(request.data.userid), this_object)
+            if request.data.create:
+                remove_perm('create', User.objects.get(request.data.userid), this_object)
+            if request.data.update:
+                remove_perm('update', User.objects.get(request.data.userid), this_object)
+            if request.data.admin:
+                remove_perm('admin', User.objects.get(request.data.userid), this_object)
+        else:
+            self.permission_denied(request, "Unauthorized Action")
 
 class NoticeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Notice.objects.all()
