@@ -38,7 +38,7 @@ class ProblemSetViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(created_by=serializers.CurrentUserDefault())
 
-    @action(method=['post'], detail=True)
+    @action(methods=['post'], detail=True)
     def authorize(self, request, pk):
         this_object = ProblemSet.objects.get(pk=pk)
         if (request.user.is_authenticated() and request.user.has_perm('ProblemSet.admin', this_object)) or request.user.is_staff:
@@ -53,7 +53,7 @@ class ProblemSetViewSet(viewsets.ModelViewSet):
         else:
             self.permission_denied(request, "Unauthorized Action")
 
-    @action(method=['post'], detail=True)
+    @action(methods=['post'], detail=True)
     def disauth(self, request, pk):
         this_object = ProblemSet.objects.get(pk=pk)
         if (request.user.is_authenticated() and request.user.has_perm('ProblemSet.admin', this_object)) or request.user.is_staff:
@@ -76,7 +76,7 @@ class ProblemViewSet(viewsets.ModelViewSet):
                        filters.OrderingFilter, DjangoFilterBackend]
     permission_classes = []
 
-    @action(method=['post'], detail=True)
+    @action(methods=['post'], detail=True)
     def authorize(self, request, pk):
         this_object = Problem.objects.get(pk=pk)
         if (request.user.is_authenticated() and request.user.has_perm('Problem.admin', this_object)) or request.user.is_staff:
@@ -91,7 +91,7 @@ class ProblemViewSet(viewsets.ModelViewSet):
         else:
             self.permission_denied(request, "Unauthorized Action")
 
-    @action(method=['post'], detail=True)
+    @action(methods=['post'], detail=True)
     def disauth(self, request, pk):
         this_object = Problem.objects.get(pk=pk)
         if (request.user.is_authenticated() and request.user.has_perm('Problem.admin', this_object)) or request.user.is_staff:

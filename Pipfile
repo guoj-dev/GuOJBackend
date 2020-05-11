@@ -32,6 +32,7 @@ djangorestframework-guardian = "*"
 django-rest-passwordreset = "*"
 django-guardian = "*"
 django-elasticsearch-dsl-drf = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.8"
