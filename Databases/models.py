@@ -1,6 +1,6 @@
 import json
 from django.contrib.postgres.fields import JSONField
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, AnonymousUser
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -8,7 +8,8 @@ from guardian.shortcuts import assign_perm, remove_perm
 
 # Create your models here.
 
-class UserProfile(models.Model):
+
+class User(AbstractUser):
     Sexs = [('M', 'Male'), ('W', 'Female')]
     Sex = models.CharField(max_length=16, choices=Sexs)
     Avatar = models.URLField()
@@ -34,20 +35,9 @@ class UserProfile(models.Model):
     CreatedProblemCount = models.BigIntegerField(default=0)
 
     class Meta:
-        verbose_name = '用户信息'
-        verbose_name_plural = verbose_name
-        ordering = ['-id']
-
-
-class User(AbstractUser):
-    UserProfile = models.OneToOneField(UserProfile,on_delete=models.CASCADE);
-
-    class Meta:
         verbose_name = '用户'
         verbose_name_plural = verbose_name
         ordering = ['-id']
-
-
 
 
 class Group(models.Model):
@@ -66,6 +56,7 @@ class Group(models.Model):
 
     def __str__(self):
         return self.GroupName
+
     class Meta:
         verbose_name = '用户组'
         verbose_name_plural = verbose_name
@@ -85,35 +76,36 @@ class ProblemSet(models.Model):
 
     def __str__(self):
         return self.ProblemSetName
+
     class Meta:
         verbose_name = '题库'
         verbose_name_plural = verbose_name
         ordering = ['-id']
         permissions = (
-            ('view','Can View ProblemSet'),
-            ('create','Can Create Problem'),
-            ('update','Can Update Problem'),
-            ('admin','Full Permission'),
+            ('view', 'Can View ProblemSet'),
+            ('create', 'Can Create Problem'),
+            ('update', 'Can Update Problem'),
+            ('admin', 'Full Permission'),
         )
 
 
 @receiver(post_save, sender=User)
 def createuser(sender, instance=None, created=False, **kwargs):
-    if created:
-        sender.UserProfile=UserProfile.objects.create()
-        this=ProblemSet.objects.create(owner=sender)
-        assign_perm('view',User,this)
-        assign_perm('create',User,this)
-        assign_perm('update',User,this)
-        assign_perm('admin',User,this)
-        
+    if created and instance.id != -1:
+        this = ProblemSet.objects.create(owner=instance)
+        assign_perm('view', instance, this)
+        assign_perm('create', instance, this)
+        assign_perm('update', instance, this)
+        assign_perm('admin', instance, this)
+
+
 @receiver(post_save, sender=ProblemSet)
 def createproblemset(sender, instance=None, created=False, **kwargs):
     if created:
-        assign_perm('view',sender.owner,sender)
-        assign_perm('create',sender.owner,sender)
-        assign_perm('update',sender.owner,sender)
-        assign_perm('admin',sender.owner,sender)
+        assign_perm('view', instance, instance.owner)
+        assign_perm('create', instance, instance.owner)
+        assign_perm('update', instance, instance.owner)
+        assign_perm('admin', instance, instance.owner)
 
 
 class Problem(models.Model):
@@ -141,20 +133,20 @@ class Problem(models.Model):
         verbose_name_plural = verbose_name
         ordering = ['-id']
         permissions = (
-            ('view','Can View ProblemSet'),
-            ('create','Can Create Problem'),
-            ('update','Can Update Problem'),
-            ('admin','Full Permission'),
+            ('view', 'Can View ProblemSet'),
+            ('create', 'Can Create Problem'),
+            ('update', 'Can Update Problem'),
+            ('admin', 'Full Permission'),
         )
-    
+
+
 @receiver(post_save, sender=Problem)
 def createproblem(sender, instance=None, created=False, **kwargs):
     if created:
-        assign_perm('view',sender.ProblemProviderUser,sender)
-        assign_perm('create',sender.ProblemProviderUser,sender)
-        assign_perm('update',sender.ProblemProviderUser,sender)
-        assign_perm('admin',sender.ProblemProviderUser,sender)
-
+        assign_perm('view', sender.ProblemProviderUser, sender)
+        assign_perm('create', sender.ProblemProviderUser, sender)
+        assign_perm('update', sender.ProblemProviderUser, sender)
+        assign_perm('admin', sender.ProblemProviderUser, sender)
 
 
 class Contest(models.Model):

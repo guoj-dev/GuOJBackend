@@ -14,6 +14,12 @@ class UserDataSerializers(serializers.ModelSerializer):
         read_only_fields = ['id','username','is_superuser','is_active','Coins','Rating','Experience','Nameplate','NameColor','NameplateColor','UserRegisterDate','Contribution','CompileErrorCount','AcceptedCount','WrongAnswerCount','RuntimeErrorCount','TimeLimitExceededCount','MemoryLimitExceededCount','OutputLimitExceededCount','ParticallyCorrectCount','SystemErrorCount','email','CreatedProblemSetCount','CreatedProblemCount']
         depths = 1
 
+class UserListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields=['id','username','Avatar']
+        read_only_fields=['id','username','Avatar']
+
 class ProblemSetSerializers(serializers.ModelSerializer):
     class Meta:
         model = ProblemSet

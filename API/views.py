@@ -27,6 +27,12 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return User.objects.filter(is_active=True)
 
+    @action(methods=['get'], detail=False)
+    def listuser(self, request):
+        queryset=self.get_queryset()
+        serializer=UserListSerializers(queryset,many=True)
+        return Response(serializer.data)
+
 
 class ProblemSetViewSet(viewsets.ModelViewSet):
     queryset = ProblemSet.objects.all()

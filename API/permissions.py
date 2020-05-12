@@ -12,7 +12,7 @@ class ProblemSetPermissions(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
-        return request.user.is_staff
+        return request.user.is_staff or request.user is obj.owner or request.user.has_perm('ProblemSet.admin')
 
 
 class ProblemPermissions(permissions.BasePermission):
