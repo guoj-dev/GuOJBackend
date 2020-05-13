@@ -1,5 +1,5 @@
 import json
-from django.contrib.postgres.fields import JSONField
+from django.contrib.postgres.fields import JSONField,ArrayField
 from django.contrib.auth.models import AbstractUser, AnonymousUser
 from django.db import models
 from django.db.models.signals import post_save
@@ -179,6 +179,11 @@ class ContestSolutions(models.Model):
     ReleaseTime = models.DateTimeField()
 
 
+class Poll(models.Model):
+    PollChoice=ArrayField(models.TextField())
+    PollResult=ArrayField(models.BigIntegerField())
+    PollUser=ArrayField(ArrayField(models.BigIntegerField()))
+
 class Discussion(models.Model):
     User = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL)
@@ -197,6 +202,7 @@ class Discussion(models.Model):
     DisLike = models.BigIntegerField()
     DownVote = models.BigIntegerField()
     isDeleted = models.BooleanField(default=False)
+    Poll = models.OneToOneField(Poll,on_delete=models.CASCADE,null=True)
 
     class Meta:
         verbose_name = '讨论'
