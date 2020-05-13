@@ -24,14 +24,14 @@ class UserViewSet(viewsets.ModelViewSet):
     filterset_fields = ('id', 'username')
     permission_classes = (UserSafePermissions,)
 
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return UserListSerializers
+        return self.serializer_class
+
     def get_queryset(self):
         return User.objects.filter(is_active=True)
 
-    @action(methods=['get'], detail=False)
-    def listuser(self, request):
-        queryset=self.get_queryset()
-        serializer=UserListSerializers(queryset,many=True)
-        return Response(serializer.data)
 
 
 class ProblemSetViewSet(viewsets.ModelViewSet):
